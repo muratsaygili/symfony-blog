@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% block pageHeader %}
+        <h1 class="page-header">
+            {% block heading %}Post Görüntüle{% endblock heading %}
+        </h1>
+    {% endblock pageHeader %}
+
+        <h2>
+            <a href="#">{{ post.baslik }}</a>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="#" class="btn btn-success">DÜZENLE</a>
+                <a href="#" class="btn btn-danger">SİL</a>
+            {% endif %}
+        </h2>
+        <p class="lead">
+            by <a href="{{ path('index') }}">{{ post.user.username }}</a>
+        </p>
+        <p><span class="glyphicon glyphicon-time"></span> {{ post.tarih | date('F j, Y, g:i a')}} tarihinde yazıldı</p>
+        <a href="{{ path('categoryGoruntule', {'id': post.kategori.id }) }}">{{ post.kategori.catAd }}</a>
+        <hr>
+        <img class="img-responsive" src="{{ asset('assets/images/900x300.png') }}" alt="">
+        <hr>
+        <p>{{ post.icerik }} </p>
+
+    <hr>
+{% endblock %}
+

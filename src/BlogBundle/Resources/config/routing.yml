@@ -1,0 +1,30 @@
+index:
+    path:     /
+    defaults: { _controller: BlogBundle:Default:index }
+
+hakkimda:
+    path:     /hakkimda
+    defaults: { _controller: BlogBundle:Default:hakkimda }
+
+postGoruntule:
+    path:     /post-goruntule/{id}
+    defaults: { _controller: BlogBundle:Default:postGoruntule }
+
+categoryGoruntule:
+    path:     /category/{id}
+    defaults: { _controller: BlogBundle:Default:category }
+
+iletisim:
+    path:     /iletisim
+    defaults: { _controller: BlogBundle:Default:iletisim }
+
+create:
+    path:     /create
+    defaults: { _controller: BlogBundle:Default:create }
+
+
+post-olustur:
+    path:     /post-olustur
+    defaults: { _controller: BlogBundle:Default:postOlustur }
+
+
