@@ -2,6 +2,10 @@ index:
     path:     /
     defaults: { _controller: BlogBundle:Default:index }
 
+search:
+    path:     /search
+    defaults: { _controller: BlogBundle:Default:search }
+
 hakkimda:
     path:     /hakkimda
     defaults: { _controller: BlogBundle:Default:hakkimda }
@@ -19,7 +23,7 @@ iletisim:
     defaults: { _controller: BlogBundle:Default:iletisim }
 
 create:
-    path:     /create
+    path:     /new/post
     defaults: { _controller: BlogBundle:Default:create }
 
 

@@ -9,7 +9,7 @@
 
         <h2>
             <a href="#">{{ post.baslik }}</a>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.username == blog_admin %}
                 <a href="#" class="btn btn-success">DÜZENLE</a>
                 <a href="#" class="btn btn-danger">SİL</a>
             {% endif %}

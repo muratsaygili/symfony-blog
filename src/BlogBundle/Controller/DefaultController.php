@@ -5,11 +5,6 @@ namespace BlogBundle\Controller;
 use BlogBundle\Entity\Category;
 use BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -22,6 +17,36 @@ class DefaultController extends Controller
         $categories=$em->getRepository('BlogBundle:Category')->findAll();
 
         return $this->render('BlogBundle:Default:index.html.twig',array('posts'=>$posts,'categories'=>$categories));
+    }
+
+
+    public function searchAction(Request $request)
+    {
+        $em=$this->getDoctrine()->getRepository('BlogBundle:Post'); // doctrine yardımcısını çağırdık.
+
+        $search=$request->request->get('search');
+
+        $query=$em->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.baslik LIKE :search')
+            ->setParameter('search','%'.$search.'%')->getQuery();
+        $posts=$query->getResult();
+
+        $count=count($posts);
+
+
+
+
+
+
+        $categories=$this->getDoctrine()->getRepository('BlogBundle:Category')->findAll();
+
+        return $this->render('BlogBundle:Default:search.html.twig',array(
+            'posts'=>$posts,
+            'categories'=>$categories,
+            'search'=>$search,
+            'count'=>$count
+        ));
     }
 
 

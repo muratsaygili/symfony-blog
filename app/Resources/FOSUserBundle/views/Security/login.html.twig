@@ -1,0 +1,30 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+    <div class="col-md-4"></div>
+    <div class="col-md-4" >
+
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            <input class="form-control" type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+            <label for="username">{{ 'security.login.username'|trans }}</label>
+            <input class="form-control" type="text" id="username" placeholder="Username" name="_username" value="{{ last_username }}" required="required" />
+
+            <label for="password">{{ 'security.login.password'|trans }}</label>
+            <input class="form-control" type="password" id="password" placeholder="Password" name="_password" required="required" />
+
+            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+            <input class="checkbox-inline" type="checkbox" id="remember_me" name="_remember_me" value="on" />
+
+
+            <input type="submit" class="form-control btn btn-primary" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+        </form>
+        Hala kayıt olmadın mı ? <a href="{{ path('fos_user_registration_register') }}">Kayıt Ol</a>
+        {% if error %}
+            <div class="btn-warning btn-sm">HATA: {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+    </div>
+{% endblock fos_user_content %}

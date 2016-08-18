@@ -7,29 +7,33 @@
         </h1>
     {% endblock pageHeader %}
 
-    {% for post in posts %}
-
-        <h2>
-            <a href="#">{{ post.baslik }}</a>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a href="#" class="btn btn-success">DÜZENLE</a>
-                <a href="#" class="btn btn-danger">SİL</a>
-            {% endif %}
-        </h2>
-        <p class="lead">
-            by <a href="{{ path('index') }}">{{ post.user.username }}</a>
-        </p>
-        <p><span class="glyphicon glyphicon-time"></span> {{ post.tarih | date('F j, Y, g:i a')}} tarihinde yazıldı</p>
-        <a href="{{ path('categoryGoruntule', {'id': post.kategori.id }) }}">{{ post.kategori.catAd }}</a>
-        <hr>
-        <img class="img-responsive" src="{{ asset('assets/images/900x300.png') }}" alt="">
-        <hr>
-        <p>{{ post.icerik | slice(0,95) }}...
-            <a class="btn btn-primary" href="{{ path('postGoruntule', {'id': post.id }) }}">Devamını gör <span class="glyphicon glyphicon-chevron-right"></span></a>
-        </p>
-        <hr>
-
-
-    {% endfor %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {% if posts == null and app.user.username == blog_admin %}
+            Henüz yayınladığınız bir yazı yok !! <a href="{{ path('create') }}">Post Oluştur</a>
+        {% endif %}
+        {% for post in posts %}
+                <h2>
+                    <a href="#">{{ post.baslik }}</a>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.username == blog_admin %}
+                        <a href="#" class="btn btn-success">DÜZENLE</a>
+                        <a href="#" class="btn btn-danger">SİL</a>
+                    {% endif %}
+                </h2>
+                <p class="lead">
+                    by <a href="{{ path('index') }}">{{ post.user.username }}</a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> {{ post.tarih | date('F j, Y, g:i a')}} tarihinde yazıldı</p>
+                <a href="{{ path('categoryGoruntule', {'id': post.kategori.id }) }}">{{ post.kategori.catAd }}</a>
+                <hr>
+                <img class="img-responsive" src="{{ asset('assets/images/900x300.png') }}" alt="">
+                <hr>
+                <p>{{ post.icerik | slice(0,95) }}...
+                    <a class="btn btn-primary" href="{{ path('postGoruntule', {'id': post.id }) }}">Devamını gör <span class="glyphicon glyphicon-chevron-right"></span></a>
+                </p>
+                <hr>
+        {% endfor %}
+    {% else %}
+        üye girişi yapılmadı..
+    {% endif %}
 <hr>
 {% endblock %}

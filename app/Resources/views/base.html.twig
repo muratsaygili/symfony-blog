@@ -54,16 +54,18 @@
             </ul>
             <ul class="nav navbar-nav pull-right ">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <li>
-                        <a href="{{ path('create') }}">Yazı Oluştur</a>
-                    </li>
+                    {% if app.user.username == blog_admin %}
+                        <li>
+                            <a href="{{ path('create') }}">Yazı Oluştur</a>
+                        </li>
+                    {% endif %}
                     <li>
                         <a href="{{ path('fos_user_security_logout') }}">Çıkış Yap[{{ app.user }}]</a>
                     </li>
 
                 {% else %}
                 <li>
-                    <a href="{{ path('fos_user_security_login') }}">Admin Girişi</a>
+                    <a href="{{ path('fos_user_security_login') }}">Giriş Yap</a>
                 </li>
                     <li>
                         <a href="{{ path('fos_user_registration_register') }}">Üye Ol</a>
@@ -99,15 +101,18 @@
 
             <!-- Blog Search Well -->
             <div class="well">
-                <h4>Blogda Ara</h4>
+                <h4>Bir Yazı Arayın..</h4>
+                <form action="{{ path('search') }}" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="search" placeholder="Başlıklarda Ara.." value="{{ search }}" required
+                    oninvalid="this.setCustomValidity('Aramak için birşeyler yazmalısın !')">
                     <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                         </button>
                         </span>
                 </div>
+                </form>
                 <!-- /.input-group -->
             </div>
 
@@ -115,7 +120,9 @@
             <div class="well">
                 <h4>Kategoriler
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {% if app.user.username == blog_admin %}
                     <a href="#" class="btn btn-primary pull-right">+ Yeni</a>
+                    {% endif %}
                 {% endif %}
                 </h4>
                 <div class="row">
