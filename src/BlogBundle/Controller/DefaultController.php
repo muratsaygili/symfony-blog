@@ -3,6 +3,7 @@
 namespace BlogBundle\Controller;
 
 use BlogBundle\Entity\Category;
+use BlogBundle\Entity\Comment;
 use BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +80,12 @@ class DefaultController extends Controller
         $categories=$em->getRepository('BlogBundle:Category')->findAll();
         $post=$em->getRepository('BlogBundle:Post')->find($id);
 
-        return $this->render('@Blog/Default/postGoruntule.html.twig',array('categories'=>$categories,'post'=>$post));
+        $comments=$em->getRepository('BlogBundle:Comment')->findBy(array(
+            'post'=>$id
+        ));
+
+        return $this->render('@Blog/Default/postGoruntule.html.twig',
+            array('categories'=>$categories,'post'=>$post,'comments'=>$comments));
     }
 
     public function iletisimAction()
@@ -125,6 +131,30 @@ class DefaultController extends Controller
         $em->flush();
 
         return $this->redirectToRoute("index");
+    }
+
+    public function newCommentAction(Request $request)
+    {
+        $em=$this->getDoctrine()->getManager(); // doctrine yardımcısını çağırdık.
+
+        //posttan gelen verileri alalım
+        $comment=$request->request->get('comment');
+        $post_id=$request->request->get('post_id');
+        $tarih=new\DateTime('now');
+        $user=$this->getUser();
+
+        $post=$this->getDoctrine()->getRepository('BlogBundle:Post')->find($post_id);
+
+        $new_comment=new Comment();
+        $new_comment->setUser($user);
+        $new_comment->setPost($post);
+        $new_comment->setYorumIcerik($comment);
+        $new_comment->setYorumTarihi($tarih);
+
+        $em->persist($new_comment);
+        $em->flush();
+
+        return $this->redirectToRoute("postGoruntule",array('id'=>$post_id));
     }
 
 

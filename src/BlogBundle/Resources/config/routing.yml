@@ -31,4 +31,8 @@ post-olustur:
     path:     /post-olustur
     defaults: { _controller: BlogBundle:Default:postOlustur }
 
+comment-olustur:
+    path:     /new-comment
+    defaults: { _controller: BlogBundle:Default:newComment }
+
 

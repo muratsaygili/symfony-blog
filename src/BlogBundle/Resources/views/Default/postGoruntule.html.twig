@@ -22,8 +22,47 @@
         <hr>
         <img class="img-responsive" src="{{ asset('assets/images/900x300.png') }}" alt="">
         <hr>
+
         <p>{{ post.icerik }} </p>
 
+        <hr>
+
+    <!-- Blog Comments -->
+
+    <!-- Comments Form -->
+    <div class="well">
+        <h4>Yorumunu Yaz:</h4>
+        <form role="form" action="{{ path('comment-olustur') }}" method="post">
+            <input name="post_id" hidden="hidden" value="{{ post.id }}">
+            <div class="form-group">
+                <textarea name="comment" class="form-control" rows="3"></textarea>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Yorum Yap">
+        </form>
+    </div>
+
     <hr>
+
+    <!-- Posted Comments -->
+
+    {% if comments is null %}
+        Henüz bu yazıya yorum yapılmamış !
+    {% else %}
+
+        {% for comment in comments %}
+            <!-- Comment -->
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="http://placehold.it/64x64" alt="">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">{{ comment.user.username }}
+                        <small>{{ comment.yorumTarihi | date('F j, Y, g:i a') }}</small>
+                    </h4>
+                    {{ comment.yorumIcerik }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 
